@@ -6,111 +6,121 @@
 n = q × R + r       其中 r ∈ 该进制合法数字集合
 ```
 
-**所有**进制转换底层都是反复套这个公式。区别仅在于 R（基数）和 r（合法数字范围）。以下 `digits` 是符号集，`val(d)` 是该符号代表的数值。
-
 ---
 
-## 通用算法
+## → 十进制（Horner，高位到低位）
 
-### → 十进制（Horner，高位到低位）
+```cpp
+// 标准进制
+ll res = 0;
+for (char c : s) {
+    int d = isdigit(c) ? c - '0' : c - 'A' + 10;
+    res = res * R + d;
+}
 
-```
-res = 0
-for d in s:
-    res = res * R + val(d)
-return res
-```
-
-混合进制（每位权重比不同）：`res = res * R_i + val(d)`，`R_i` 是该位向高位的进位单位。
-
-### ← 十进制转出（短除，低位到高位）
-
-```
-res = []
-while n != 0:
-    r = n mod |R|            // 取绝对值下的余数
-    if r ∉ 合法范围:          // 校正到合法数字集
-        r -= |R|
-        n += |R|   (R > 0)
-        n -= |R|   (R < 0)   // 负进制时 n 往正方向调整
-    n = (n - r) / R
-    res += d(r)              // d(r) 是数值 r 对应的符号
-reverse(res)
+// 混合进制（每位基数不同，R[i] 为第 i 位权重比）
+ll res = 0;
+for (int i = 0; i < n; ++i)
+    res = res * R[i] + val[i];
 ```
 
-进位制万变不离其宗，就用这个**短除 + 校正**框架。
+## ← 十进制转出（短除 + 校正，低位到高位）
+
+框架（四种变体通用）：
+
+```cpp
+string res;
+while (n != 0) {
+    int r = n % abs(R);            // 取 |R| 下的余数（C++ 中 % 符号跟随被除数）
+    if (r < 0) r += abs(R);        // 确保非负
+    if (r > max_digit) r -= abs(R); // 校正到合法范围（平衡进制）
+    n = (n - r) / R;
+    res += d[r];                   // d[r] 为数值 r 对应的字符
+}
+reverse(res.begin(), res.end());
+```
 
 ---
 
 ## 四种变体
 
-### 1. 标准进制（R > 0，r ∈ [0, R-1]）
+### 1. 标准进制（R > 0，数字 [0, R-1]）
 
-```
-例: 二进制(R=2)、八进制(R=8)、16进制(R=16)
-
-→: res = res * R + digit
-←: r = n % R; n /= R;    // % 结果天然在 [0, R-1]，无需校正
-```
-
-### 2. 负进制（R < 0，r ∈ [0, |R|-1]）
-
-```
-例: 负二进制(R=-2)、负三进制(R=-3)   [EOJ 1017]
-
-←: r = n % |R|          // 余数在 [0, |R|-1]，已合法
-    // 但 n = (n - r) / R 中 R 为负，注意整除语义
-    // C++: n = (n - r) / R   (R 是负值，/ 向零截断)
-    // 更安全:
-    if (r < 0) r += |R|;
-    n = (n < 0) ? (n + |R| - 1) / R   // 负进制慎用直接除
-                : n / R;
-    
-→: 同标准进制，R 用负值即可
+```cpp
+string ll_to_R(ll n, int R) {
+    if (n == 0) return "0";
+    string res;
+    while (n) {
+        int r = n % R;             // 天然在 [0, R-1]，无需校正
+        res += (r < 10 ? r + '0' : r - 10 + 'A');
+        n /= R;
+    }
+    reverse(res.begin(), res.end());
+    return res;
+}
 ```
 
-### 3. 平衡进制（r 以 0 为中心对称）
+### 2. 负进制（R < 0，数字 [0, |R|-1]）
 
+```cpp
+// 例: R = -2  →  EOJ 1017
+string dec_to_negR(ll n, int R) {  // R 为负数，如 -2
+    if (n == 0) return "0";
+    string res;
+    while (n) {
+        int r = n % -R;            // % |R|, 如 % 2。C++ 中 n 可正可负
+        if (r < 0) r += -R;        // 确保非负
+        // 此时 r ∈ [0, |R|-1], 已合法
+        n = (n - r) / R;           // R 为负, 注意 (n-r) 能被 R 整除
+        res += (r + '0');
+    }
+    reverse(res.begin(), res.end());
+    return res;
+}
 ```
-例: 平衡三进制(R=3, digits: -1/0/1)   [EOJ 1007]
-    平衡五进制(R=5, digits: -2/-1/0/1/2)
 
-←: r = n % R        // 标准 % 结果 ∈ [-(R-1), R-1]
-    if r > max_digit:      // 例如平衡三进制 r > 1
-        r -= R
-    if r < min_digit:      // 例如 r < -1
-        r += R
-    n = (n - r) / R
+### 3. 平衡进制（数字以 0 为中心对称）
+
+```cpp
+// 例: 平衡三进制 (R=3, digits: -1/0/1)  →  EOJ 1007
+string dec_to_balanced(ll n, int R) {
+    if (n == 0) return "0";
+    string res;
+    while (n) {
+        int r = n % R;             // C++: r ∈ [-(R-1), R-1]
+        if (r > R / 2)  r -= R;   // 往负方向校正, 如 2→-1 (R=3)
+        if (r < -R / 2) r += R;   // 往正方向校正
+        n = (n - r) / R;
+        // 按约定映射符号, 如平衡三进制: -1→'2', 0→'0', 1→'1'
+        res += (r == -1 ? '2' : r + '0');
+    }
+    reverse(res.begin(), res.end());
+    return res;
+}
 ```
 
-### 4. 混合进制（每位的 R 不同）
+### 4. 混合进制（每位基数不同）
 
-```
-例: 质数进制(R_i = 第 i 个质数)       [EOJ 1006]
-    时间进制(R: 60/60/24)
-    阶乘进制(R_i = i+1, 第 k 位权重 = k!)
-
-→: res = 0
-    for i in 0..n-1:
-        res = res * R_i + digit[i]   // 注意 R_i 是第 i 位的基数
-    // 或从高位起逐位: res = res * cur_R + d
-
-←: i = 0
-    while n != 0:
-        r = n % R_i
-        digits[i] = r
-        n /= R_i
-        i++
+```cpp
+// 例: 质数进制 (2,3,5,7,11,...)  →  EOJ 1006
+// R[i] 为第 i 位（从低位起）的基数
+vector<int> dec_to_mixed(ll n, const vector<int>& R) {
+    vector<int> res;
+    for (int i = 0; n; ++i) {
+        int r = n % R[i];
+        res.push_back(r);
+        n /= R[i];
+    }
+    return res;  // res[0] 为最低位
+}
 ```
 
 ---
 
 ## 考场上遇到新进制
 
-1. **识别数字集** — 每个符号代表什么数值？（最小值、最大值、是否对称）
-2. **确定基数 R** — 相邻位权重比。混合进制先列出每位的 R_i
-3. **套 Horner（→十）** — 永远 `res = res * R + val(d)`
-4. **套短除 + 校正（← 十）** — `r = n % |R|`，若 r 不在合法范围则 `r ± |R|`，然后 `n = (n - r) / R`
-5. **验证** — 最小的几个数手算一遍，确认转换一致
-
-**口诀**：符号集 + 权重比 → Horner 进，短除出。校正让余数落进合法区间。
+1. **识别数字集** — 每个符号代表什么数值？最小值、最大值？
+2. **确定基数 R 或 R[i]** — 相邻位权重比
+3. **→ 十** — `res = res * R + val(d)`, 恒成立
+4. **← 十** — 短除框架：`r = n % |R|` → 校正到合法区间 → `n = (n - r) / R`
+5. **验证** — 最小的几个数手算一遍
