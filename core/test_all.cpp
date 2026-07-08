@@ -66,6 +66,8 @@ int main() {
         T(sub_bigfloat("0.5", "0.5", 1) == "0.0", "fsub same");
         T(sub_bigfloat("100.0", "0.001", 3) == "99.999", "fsub borrow");
         T(sub_bigfloat("100.000", "0.001", 2) == "100.00", "fsub round");
+        T(sub_bigfloat("0.5", "1.0", 1) == "-0.5", "fsub a<b");
+        T(sub_bigfloat("1.54", "2.3", 2) == "-0.76", "fsub a<b round");
     }
 
     // ===== Parser small int =====

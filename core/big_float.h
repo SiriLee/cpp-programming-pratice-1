@@ -6,7 +6,7 @@ using namespace std;
 
 // a + b, 保留 prec 位小数，四舍五入
 string add_bigfloat(const string& a, const string& b, int prec);
-// a - b (a >= b), 保留 prec 位小数，四舍五入
+// a - b, 保留 prec 位小数，四舍五入（a < b 时返回负值）
 string sub_bigfloat(const string& a, const string& b, int prec);
 
 #endif

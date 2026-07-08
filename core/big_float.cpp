@@ -17,6 +17,8 @@ static string float_op(const string& a, const string& b, int prec, bool add) {
     int flen = max({frac_len(a), frac_len(b), prec + 1});
 
     BigInt sa(scale(a, flen)), sb(scale(b, flen));
+    bool neg = false;
+    if (!add && cmp(sa, sb) < 0) { swap(sa, sb); neg = true; }
     BigInt res = add ? sa + sb : sa - sb;
     string s = res.s;
     if ((int)s.size() < flen) s.insert(0, flen - s.size(), '0');
@@ -31,7 +33,7 @@ static string float_op(const string& a, const string& b, int prec, bool add) {
         s.insert(s.size() - prec, 1, '.');
         if (s[0] == '.') s.insert(0, "0");
     }
-    return s;
+    return neg ? "-" + s : s;
 }
 
 string add_bigfloat(const string& a, const string& b, int prec) {
