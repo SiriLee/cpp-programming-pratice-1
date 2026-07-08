@@ -6,8 +6,13 @@
 using namespace std;
 
 // ---- 位计数 ----
-inline int popcnt(unsigned int x)   { return __builtin_popcount(x); }     // 32位
-inline int popcnt(unsigned long long x) { return __builtin_popcountll(x); } // 64位
+template<typename T>
+int popcnt(T x) {
+    if constexpr (sizeof(T) <= sizeof(unsigned int))
+        return __builtin_popcount((unsigned int)x);
+    else
+        return __builtin_popcountll((unsigned long long)x);
+}
 
 // ---- 单字节 → 十六进制字符串 ----
 inline string byte2hex(unsigned char c) {
