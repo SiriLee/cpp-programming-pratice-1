@@ -1,15 +1,18 @@
 #include "parser.h"
-#include "big_num.h"
+#include "big_int.h"
 
 // ---- 小整数 ----
 
 ll str_to_ll(const string& s, int R) {
+    if (s.empty()) return 0;
+    bool neg = s[0] == '-';
     ll res = 0;
-    for (char c : s) {
-        int d = isdigit(c) ? c - '0' : c - 'A' + 10;
+    for (size_t i = neg ? 1 : 0; i < s.size(); ++i) {
+        char c = s[i];
+        int d = isdigit(c) ? c - '0' : (c >= 'A' ? c - 'A' + 10 : c - 'a' + 10);
         res = res * R + d;
     }
-    return res;
+    return neg ? -res : res;
 }
 
 string ll_to_str(ll num, int R) {
@@ -29,21 +32,32 @@ string ll_to_str(ll num, int R) {
 
 // ---- 小浮点数 ----
 
-double str_to_double(const string& s, int R) {
-    double res = 0;
+pair<ll, ll> str_to_fraction(const string& s, int R) {
+    if (s.empty()) return {0, 1};
+    bool neg = s[0] == '-';
+    size_t start = neg ? 1 : 0;
     size_t dot = s.find('.');
-    size_t int_len = (dot == string::npos) ? s.size() : dot;
-    for (size_t i = 0; i < int_len; ++i) {
-        int d = isdigit(s[i]) ? s[i] - '0' : s[i] - 'A' + 10;
-        res = res * R + d;
+    if (dot != string::npos && dot < start) dot = string::npos;
+    string int_part = (dot == string::npos) ? s.substr(start) : s.substr(start, dot - start);
+    string frac_part = (dot == string::npos) ? "" : s.substr(dot + 1);
+
+    ll num = 0, den = 1;
+    for (char c : int_part) {
+        int d = isdigit(c) ? c - '0' : (c >= 'A' ? c - 'A' + 10 : c - 'a' + 10);
+        num = num * R + d;
     }
-    double frac = 1;
-    for (size_t i = dot + 1; i < s.size(); ++i) {
-        frac /= R;
-        int d = isdigit(s[i]) ? s[i] - '0' : s[i] - 'A' + 10;
-        res += d * frac;
+    for (char c : frac_part) {
+        int d = isdigit(c) ? c - '0' : (c >= 'A' ? c - 'A' + 10 : c - 'a' + 10);
+        num = num * R + d;
+        den *= R;
     }
-    return res;
+    if (neg) num = -num;
+    return {num, den};
+}
+
+double str_to_double(const string& s, int R) {
+    auto [num, den] = str_to_fraction(s, R);
+    return (double)num / den;
 }
 
 string double_to_str(double num, int R, int prec) {
@@ -67,20 +81,20 @@ string double_to_str(double num, int R, int prec) {
 // ---- 大整数 ----
 
 string str_to_dec(const string& s, int from) {
-    string res = "0";
+    BigInt res("0");
     for (char c : s) {
         int d = isdigit(c) ? c - '0' : c - 'A' + 10;
-        res = mul_bigint(res, to_string(from));
-        res = add_bigint(res, to_string(d));
+        res = res * BigInt(to_string(from)) + BigInt(to_string(d));
     }
-    return res;
+    return res.str();
 }
 
 string dec_to_str(const string& dec, int to) {
     if (dec == "0") return "0";
-    string res, num = dec;
-    while (num != "0") {
-        auto [q, r] = div_bigint_by_int(num, to);
+    string res;
+    BigInt num(dec);
+    while (num.v != "0") {
+        auto [q, r] = div_by_int(num, to);
         res += (r < 10 ? r + '0' : r - 10 + 'A');
         num = q;
     }
