@@ -70,16 +70,24 @@ inline BigInt operator*(const BigInt& a, const BigInt& b) {
     return BigInt(r.empty() ? "0" : r);
 }
 
+// 余数始终 ∈ [0, |d|-1]，商向负无穷方向舍入（与 Python // 一致）
 inline pair<BigInt, int> div_by_int(const BigInt& a, int d) {
+    bool neg = a.s[0] == '-';
+    string num = neg ? a.s.substr(1) : a.s;
     string q;
     int rem = 0;
-    for (char c : a.s) {
+    for (char c : num) {
         int cur = rem * 10 + (c - '0');
         int qd = cur / d;
         if (!q.empty() || qd) q += (qd + '0');
         rem = cur % d;
     }
     if (q.empty()) q = "0";
+    if (neg && rem > 0) {
+        q = (BigInt(q) + BigInt("1")).s;
+        rem = d - rem;
+    }
+    if (neg) q = "-" + q;
     return {BigInt(q), rem};
 }
 
