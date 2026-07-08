@@ -13,11 +13,11 @@ static string float_op(const string& a, const string& b, int prec, bool add) {
     int flen = prec + 1;
     BigInt sa(scale(a, flen)), sb(scale(b, flen));
     BigInt res = add ? sa + sb : sa - sb;
-    string s = res.v;
+    string s = res.s;
     if ((int)s.size() < flen) s.insert(0, flen - s.size(), '0');
     // round half-up
     char last = s.back(); s.pop_back();
-    if (last >= '5') s = (BigInt(s) + BigInt("1")).v;
+    if (last >= '5') s = (BigInt(s) + BigInt("1")).s;
     if ((int)s.size() < prec) s.insert(0, prec - s.size(), '0');
     if (prec > 0) {
         s.insert(s.size() - prec, 1, '.');

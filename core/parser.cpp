@@ -86,14 +86,14 @@ string str_to_dec(const string& s, int from) {
         int d = isdigit(c) ? c - '0' : c - 'A' + 10;
         res = res * BigInt(to_string(from)) + BigInt(to_string(d));
     }
-    return res.str();
+    return res.s;
 }
 
 string dec_to_str(const string& dec, int to) {
     if (dec == "0") return "0";
     string res;
     BigInt num(dec);
-    while (num.v != "0") {
+    while (num.s != "0") {
         auto [q, r] = div_by_int(num, to);
         res += (r < 10 ? r + '0' : r - 10 + 'A');
         num = q;

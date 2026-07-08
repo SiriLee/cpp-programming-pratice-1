@@ -11,10 +11,10 @@ int main() {
     // ===== BigInt =====
     {
         BigInt z, a("123"), b("456"), c("0"), d("00123");
-        T(z.v == "0", "BigInt default");
-        T(c.v == "0", "BigInt 0");
-        T(d.v == "123", "BigInt strip0");
-        T(BigInt(42LL).v == "42", "BigInt from ll");
+        T(z.s == "0", "BigInt default");
+        T(c.s == "0", "BigInt 0");
+        T(d.s == "123", "BigInt strip0");
+        T(BigInt(42LL).s == "42", "BigInt from ll");
 
         T(cmp(a, b) < 0, "cmp a<b");
         T(cmp(b, a) > 0, "cmp b>a");
@@ -22,21 +22,21 @@ int main() {
         T(cmp(a, b) < 0 && cmp(b, a) > 0, "rel ops");
         T(cmp(a, BigInt("123")) == 0 && cmp(a, b) != 0, "eq/ne");
 
-        T((a + b).v == "579", "add");
-        T((BigInt("999") + BigInt("1")).v == "1000", "add carry");
-        T((a - BigInt("23")).v == "100", "sub");
-        T((BigInt("1000") - BigInt("1")).v == "999", "sub borrow");
-        T((BigInt("5") - BigInt("5")).v == "0", "sub to 0");
-        T((BigInt("12") * BigInt("34")).v == "408", "mul");
-        T((BigInt("99") * BigInt("99")).v == "9801", "mul 99");
-        T((BigInt("0") * BigInt("999")).v == "0", "mul by 0");
+        T((a + b).s == "579", "add");
+        T((BigInt("999") + BigInt("1")).s == "1000", "add carry");
+        T((a - BigInt("23")).s == "100", "sub");
+        T((BigInt("1000") - BigInt("1")).s == "999", "sub borrow");
+        T((BigInt("5") - BigInt("5")).s == "0", "sub to 0");
+        T((BigInt("12") * BigInt("34")).s == "408", "mul");
+        T((BigInt("99") * BigInt("99")).s == "9801", "mul 99");
+        T((BigInt("0") * BigInt("999")).s == "0", "mul by 0");
 
         auto [q1, r1] = div_by_int(BigInt("0"), 2);
-        T(q1.v == "0" && r1 == 0, "div 0");
+        T(q1.s == "0" && r1 == 0, "div 0");
         auto [q2, r2] = div_by_int(BigInt("123"), 2);
-        T(q2.v == "61" && r2 == 1, "div 123/2");
+        T(q2.s == "61" && r2 == 1, "div 123/2");
         auto [q3, r3] = div_by_int(BigInt("255"), 16);
-        T(q3.v == "15" && r3 == 15, "div 255/16");
+        T(q3.s == "15" && r3 == 15, "div 255/16");
 
         string s = "000123";
         BigInt::strip0(s);           T(s == "123", "strip0");
