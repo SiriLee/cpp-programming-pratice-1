@@ -1,3 +1,0 @@
-div2 call:[char,find_first_not_of,return,substr] noreturn:[substr]
-mul2add call:[char,size]
-main call:[char,div2,find_first_not_of,mul2add,substr,sync_with_stdio,tie] noreturn:[char,mul2add,substr]
