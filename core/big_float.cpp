@@ -4,7 +4,7 @@
 static string scale(const string& s, int flen) {
     size_t p = s.find('.');
     string i = (p == string::npos) ? s : s.substr(0, p);
-    string f = (p == string::npos) ? "" : s.substr(p + 1);
+    string f = (p == string::npos) ? "" : s.substr(p + 1, flen);
     f.append(flen - f.size(), '0');
     return i + f;
 }
