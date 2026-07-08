@@ -11,12 +11,6 @@ void BigInt::strip0(string& s) {
     else if (p > 0) s.erase(0, p);
 }
 
-void BigInt::strip_trailing0(string& s) {
-    size_t p = s.find_last_not_of('0');
-    if (p == string::npos || p == s.size() - 1) return;
-    s.erase(p + 1);
-}
-
 int cmp(const BigInt& a, const BigInt& b) {
     if (a.v.size() != b.v.size())
         return a.v.size() < b.v.size() ? -1 : 1;

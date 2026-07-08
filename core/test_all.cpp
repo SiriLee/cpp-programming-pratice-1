@@ -38,10 +38,8 @@ int main() {
         auto [q3, r3] = div_by_int(BigInt("255"), 16);
         T(q3.v == "15" && r3 == 15, "div 255/16");
 
-        // BigInt strip0 / strip_trailing0
-        string s = "000123", t = "12300";
+        string s = "000123";
         BigInt::strip0(s);           T(s == "123", "strip0");
-        BigInt::strip_trailing0(t);  T(t == "123", "strip_trailing0");
     }
 
     // ===== BigFloat =====

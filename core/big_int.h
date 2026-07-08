@@ -14,7 +14,6 @@ struct BigInt {
     string str() const { return v; }
 
     static void strip0(string& s);
-    static void strip_trailing0(string& s);
 };
 
 int cmp(const BigInt& a, const BigInt& b);
