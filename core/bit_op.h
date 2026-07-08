@@ -8,10 +8,11 @@ using namespace std;
 // ---- 位计数 ----
 template<typename T>
 int popcnt(T x) {
+    using U = make_unsigned_t<T>;
     if constexpr (sizeof(T) <= sizeof(unsigned int))
-        return __builtin_popcount((unsigned int)x);
+        return __builtin_popcount((unsigned int)(U)x);
     else
-        return __builtin_popcountll((unsigned long long)x);
+        return __builtin_popcountll((unsigned long long)(U)x);
 }
 
 // ---- 单字节 → 十六进制字符串 ----
