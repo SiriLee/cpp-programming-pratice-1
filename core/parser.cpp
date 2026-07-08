@@ -5,27 +5,27 @@
 
 ll str_to_ll(const string& s, int R) {
     if (s.empty()) return 0;
-    bool neg = s[0] == '-';
+    bool neg = s[0] == '-';                          // [NEG]
     ll res = 0;
-    for (size_t i = neg ? 1 : 0; i < s.size(); ++i) {
+    for (size_t i = neg ? 1 : 0; i < s.size(); ++i) { // [NEG]
         char c = s[i];
         int d = isdigit(c) ? c - '0' : (c >= 'A' ? c - 'A' + 10 : c - 'a' + 10);
         res = res * R + d;
     }
-    return neg ? -res : res;
+    return neg ? -res : res;                          // [NEG]
 }
 
 string ll_to_str(ll num, int R) {
     if (num == 0) return "0";
-    bool neg = num < 0;
-    if (neg) num = -num;
+    bool neg = num < 0;                               // [NEG]
+    if (neg) num = -num;                              // [NEG]
     string res;
     while (num) {
         int d = num % R;
         res += (d < 10 ? d + '0' : d - 10 + 'A');
         num /= R;
     }
-    if (neg) res += '-';
+    if (neg) res += '-';                              // [NEG]
     reverse(res.begin(), res.end());
     return res;
 }
@@ -34,8 +34,8 @@ string ll_to_str(ll num, int R) {
 
 pair<ll, ll> str_to_fraction(const string& s, int R) {
     if (s.empty()) return {0, 1};
-    bool neg = s[0] == '-';
-    size_t start = neg ? 1 : 0;
+    bool neg = s[0] == '-';                          // [NEG]
+    size_t start = neg ? 1 : 0;                       // [NEG]
     size_t dot = s.find('.');
     if (dot != string::npos && dot < start) dot = string::npos;
     string int_part = (dot == string::npos) ? s.substr(start) : s.substr(start, dot - start);
@@ -51,7 +51,7 @@ pair<ll, ll> str_to_fraction(const string& s, int R) {
         num = num * R + d;
         den *= R;
     }
-    if (neg) num = -num;
+    if (neg) num = -num;                             // [NEG]
     return {num, den};
 }
 
@@ -61,8 +61,8 @@ double str_to_double(const string& s, int R) {
 }
 
 string double_to_str(double num, int R, int prec) {
-    bool neg = num < 0;
-    if (neg) num = -num;
+    bool neg = num < 0;                               // [NEG]
+    if (neg) num = -num;                              // [NEG]
     ll int_part = (ll)num;
     double frac_part = num - int_part;
     string res = ll_to_str(int_part, R);
@@ -75,7 +75,7 @@ string double_to_str(double num, int R, int prec) {
             frac_part -= d;
         }
     }
-    return neg ? "-" + res : res;
+    return neg ? "-" + res : res;                     // [NEG]
 }
 
 // ---- 大整数 ----

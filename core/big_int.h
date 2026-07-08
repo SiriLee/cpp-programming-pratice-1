@@ -71,9 +71,10 @@ inline BigInt operator*(const BigInt& a, const BigInt& b) {
 }
 
 // 余数始终 ∈ [0, |d|-1]，商向负无穷方向舍入（与 Python // 一致）
+// 搜索 [NEG] 可删除负数支持，简化为非负版本
 inline pair<BigInt, int> div_by_int(const BigInt& a, int d) {
-    bool neg = a.s[0] == '-';
-    string num = neg ? a.s.substr(1) : a.s;
+    bool neg = a.s[0] == '-';                    // [NEG]
+    string num = neg ? a.s.substr(1) : a.s;      // [NEG]
     string q;
     int rem = 0;
     for (char c : num) {
@@ -83,11 +84,11 @@ inline pair<BigInt, int> div_by_int(const BigInt& a, int d) {
         rem = cur % d;
     }
     if (q.empty()) q = "0";
-    if (neg && rem > 0) {
-        q = (BigInt(q) + BigInt("1")).s;
-        rem = d - rem;
-    }
-    if (neg) q = "-" + q;
+    if (neg && rem > 0) {                        // [NEG]
+        q = (BigInt(q) + BigInt("1")).s;          // [NEG]
+        rem = d - rem;                            // [NEG]
+    }                                             // [NEG]
+    if (neg) q = "-" + q;                         // [NEG]
     return {BigInt(q), rem};
 }
 
