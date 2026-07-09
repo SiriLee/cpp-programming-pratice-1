@@ -4,7 +4,9 @@ using namespace std;
 using ll = long long;
 
 bool isSpecialWord(const string& word) {
-    return word == "the" || word == "a" || word == "an" || word == "of" || word == "for" || word == "and";
+    string lower = word;
+    transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+    return lower == "the" || lower == "a" || lower == "an" || lower == "of" || lower == "for" || lower == "and";
 }
 
 int getWordsCount(const string& line) {

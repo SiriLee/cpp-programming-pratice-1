@@ -6,7 +6,7 @@ using namespace std;
 using ll = long long;
 
 // ---- 小整数 (R: 2~36) ----
-ll str_to_ll(const string& s, int R);
+inline ll str_to_ll(const string& s, int R) { return stoll(s, nullptr, R); }
 string ll_to_str(ll num, int R);
 
 // ---- 小浮点数 ----

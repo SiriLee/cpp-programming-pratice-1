@@ -3,18 +3,6 @@
 
 // ---- 小整数 ----
 
-ll str_to_ll(const string& s, int R) {
-    if (s.empty()) return 0;
-    bool neg = s[0] == '-';                          // [NEG]
-    ll res = 0;
-    for (size_t i = neg ? 1 : 0; i < s.size(); ++i) { // [NEG]
-        char c = s[i];
-        int d = isdigit(c) ? c - '0' : (c >= 'A' ? c - 'A' + 10 : c - 'a' + 10);
-        res = res * R + d;
-    }
-    return neg ? -res : res;                          // [NEG]
-}
-
 string ll_to_str(ll num, int R) {
     if (num == 0) return "0";
     bool neg = num < 0;                               // [NEG]
