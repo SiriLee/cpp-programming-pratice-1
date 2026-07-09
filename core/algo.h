@@ -16,4 +16,37 @@ T qpow(T a, ll n) {
     return res;
 }
 
+// ---- 质数 ----
+
+inline bool is_prime(ll n) {
+    if (n < 2) return false;
+    if (n == 2 || n == 3) return true;
+    if (n % 2 == 0 || n % 3 == 0) return false;
+    for (ll i = 5; i * i <= n; i += 6)
+        if (n % i == 0 || n % (i + 2) == 0) return false;
+    return true;
+}
+
+inline vector<int> gen_primes(int k) {
+    vector<int> res;
+    if (k <= 0) return res;
+    res.push_back(2); if (--k == 0) return res;
+    res.push_back(3); if (--k == 0) return res;
+    for (int i = 5; k > 0; i += 6) {
+        bool ok = true;
+        for (int p : res) {
+            if (p * p > i) break;
+            if (i % p == 0) { ok = false; break; }
+        }
+        if (ok) { res.push_back(i); if (--k == 0) break; }
+        ok = true;
+        for (int p : res) {
+            if (p * p > i + 2) break;
+            if ((i + 2) % p == 0) { ok = false; break; }
+        }
+        if (ok) { res.push_back(i + 2); --k; }
+    }
+    return res;
+}
+
 #endif

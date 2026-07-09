@@ -17,22 +17,51 @@ Frac operator+(const Frac& a, const Frac& b) {
 }
 ```
 
-## 01背包
+## 背包问题
 
 ```cpp
-// M容量, w重量, v价值 —— 每个物品最多选一次
+// 01背包：每件物品至多一次，求最大价值
 vector<ll> dp(M + 1);
 for (int i = 0; i < n; ++i)
-    for (int j = M; j >= w[i]; --j)          // 倒序！倒序！倒序！
+    for (int j = M; j >= w[i]; --j)          // 倒序
         dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
 // 答案: dp[M]
 ```
 
 ```cpp
-// 完全背包（每件物品无限次）—— 循环正序即可
+// 完全背包：每件物品无限次 —— 仅循环正序，其余相同
 for (int i = 0; i < n; ++i)
     for (int j = w[i]; j <= M; ++j)          // 正序
         dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
+```
+
+```cpp
+// 子集和 / 精准匹配：能否选出若干物品恰好装满 M（bool dp）
+vector<bool> dp(M + 1);
+dp[0] = true;
+for (int w : weights)
+    for (int j = M; j >= w; --j)             // 01 倒序；完全则正序
+        dp[j] = dp[j] || dp[j - w];
+// 答案: dp[M] 为 true 表示可以
+```
+
+```cpp
+// 天平称重：每个砝码可放左(+w)、放右(-w) 或不选（1031）
+// dp[j+offset] 表示能否称出重量 j（j 可为负）
+int sum = accumulate(w.begin(), w.end(), 0);
+vector<bool> dp(2 * sum + 1);
+dp[sum] = true;                              // offset = sum
+for (int wi : w) {
+    vector<bool> ndp(2 * sum + 1);
+    for (int j = 0; j <= 2 * sum; ++j) {
+        if (!dp[j]) continue;
+        ndp[j] = true;                       // 不选
+        if (j >= wi) ndp[j - wi] = true;     // 放右边（负）
+        if (j + wi <= 2 * sum) ndp[j + wi] = true; // 放左边（正）
+    }
+    dp = move(ndp);
+}
+// 答案：遍历 dp[sum+1 .. 2*sum] 中所有 true 的 j-sum
 ```
 
 ## 滑动窗口（最长无重复子串）
@@ -84,28 +113,5 @@ void dfs(string& cur, const string& chars, int n) {
         dfs(cur, chars, n);
         cur.pop_back();                       // 回溯
     }
-}
-```
-
-## 质数相关
-
-```cpp
-// 试除法判质数（O(√n)，单次查询够用）
-bool isPrime(ll n) {
-    if (n < 2) return false;
-    for (ll i = 2; i * i <= n; ++i)
-        if (n % i == 0) return false;
-    return true;
-}
-
-// 前 k 个质数表（筛法，k 不太大时直接用）
-vector<int> primes;
-for (int i = 2; primes.size() < k; ++i) {
-    bool ok = true;
-    for (int p : primes) {
-        if (p * p > i) break;
-        if (i % p == 0) { ok = false; break; }
-    }
-    if (ok) primes.push_back(i);
 }
 ```
