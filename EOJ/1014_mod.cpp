@@ -9,6 +9,6 @@ int main() {
     string sa, sb; int N; cin >> sa >> sb >> N;
     number<cpp_dec_float<500>> a(sa), b(sb);
     number<cpp_dec_float<500>> c = a + b;
-    cout << c.str(N);
+    stringstream ss; ss << fixed << setprecision(N) << c; cout << ss.str();
     return 0;
 }
