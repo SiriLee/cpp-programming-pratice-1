@@ -15,7 +15,7 @@ g++ -std=c++17 -o prog EOJ/1001.cpp && ./prog
 
 运行 core 全部测试：
 ```bash
-g++ -std=c++17 -o core/test_all core/test_all.cpp core/big_float.cpp core/parser.cpp && ./core/test_all
+g++ -std=c++17 -o core/test_all core/test_all.cpp && ./core/test_all
 ```
 
 ## 编码风格
@@ -30,8 +30,8 @@ g++ -std=c++17 -o core/test_all core/test_all.cpp core/big_float.cpp core/parser
 | 文件 | 用途 | 特殊约定 |
 |------|------|---------|
 | `big_int.h` | BigInt（大整数 + - * div floor）| 单头文件，搜 `[NEG]` 可去掉负数支持 |
-| `big_float.h/.cpp` | 大浮点数加减（精度+四舍五入）| |
-| `parser.h/.cpp` | 进制转换 2~36（小整数/大整数/分数）| 搜 `[NEG]` 去掉负数支持 |
+| `big_float.h` | 大浮点数加减（精度+四舍五入）| |
+| `parser.h` | 进制转换 2~36（小整数/大整数/分数）| 单头文件，搜 `[NEG]` 去掉负数支持 |
 | `algo.h` | 通用快速幂 `qpow<T>(a, n)` | |
 | `bit_op.h` | 位/字节操作速查（popcnt/byte2hex/bit/bswap）| |
 | `base_algo.md` | 特殊进制算法速查（标准/负/平衡/混合）| 伪代码+真代码 |

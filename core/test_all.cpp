@@ -77,37 +77,30 @@ int main() {
         T(str_to_ll("1010", 2) == 10, "stoll bin");
         T(str_to_ll("ZZ", 36) == 35*36+35, "stoll ZZ");
 
-        T(ll_to_str(0, 10) == "0", "lltos 0");
-        T(ll_to_str(255, 16) == "FF", "lltos FF");
-        T(ll_to_str(10, 2) == "1010", "lltos bin");
-        T(ll_to_str(-10, 10) == "-10", "lltos neg");
-        T(ll_to_str(35*36+35, 36) == "ZZ", "lltos ZZ");
+        T(ll_to_R(0, 10) == "0", "lltos 0");
+        T(ll_to_R(255, 16) == "FF", "lltos FF");
+        T(ll_to_R(10, 2) == "1010", "lltos bin");
+        T(ll_to_R(-10, 10) == "-10", "lltos neg");
+        T(ll_to_R(35*36+35, 36) == "ZZ", "lltos ZZ");
 
         // round-trip
         for (int R = 2; R <= 36; ++R)
             for (ll x : {0LL, 1LL, 12345LL, 999999LL, -100LL}) {
-                T(str_to_ll(ll_to_str(x, R), R) == x,
+                T(str_to_ll(ll_to_R(x, R), R) == x,
                   ("roundtrip R=" + to_string(R) + " x=" + to_string(x)).c_str());
             }
     }
 
     // ===== Parser fraction & float =====
     {
-        auto [n1, d1] = str_to_fraction("1010.101", 2);
-        T(n1 == 85 && d1 == 8, "frac 1010.101b = 85/8");  // 10.625
-        auto [n2, d2] = str_to_fraction("F.8", 16);
-        T(n2 == 248 && d2 == 16, "frac F.8 = 248/16");    // 15.5
-        auto [n3, d3] = str_to_fraction("1.2", 10);
-        T(n3 == 12 && d3 == 10, "frac 1.2 = 12/10");
-        auto [n4, d4] = str_to_fraction("42", 10);
-        T(n4 == 42 && d4 == 1, "frac int");
+        T(abs(str_to_double("1010.101", 2) - 10.625) < 1e-9, "R->double bin");
+        T(abs(str_to_double("F.8", 16) - 15.5) < 1e-9, "R->double hex");
+        T(abs(str_to_double("1.2", 10) - 1.2) < 1e-9, "R->double dec");
+        T(abs(str_to_double("42", 10) - 42.0) < 1e-9, "R->double int");
 
-        T(abs(str_to_double("1010.101", 2) - 10.625) < 1e-9, "stod bin");
-        T(abs(str_to_double("F.8", 16) - 15.5) < 1e-9, "stod hex");
-
-        T(double_to_str(10.625, 2, 3) == "1010.101", "dtos bin");
-        T(double_to_str(15.5, 16, 1) == "F.8", "dtos hex");
-        T(double_to_str(-1.5, 10, 1) == "-1.5", "dtos neg");
+        T(double_to_R(10.625, 2, 3) == "1010.101", "dtos bin");
+        T(double_to_R(15.5, 16, 1) == "F.8", "dtos hex");
+        T(double_to_R(-1.5, 10, 1) == "-1.5", "dtos neg");
     }
 
     // ===== Parser big int =====
@@ -116,20 +109,20 @@ int main() {
         T(str_to_dec("1010", 2) == "10", "big stod bin");
         T(str_to_dec("FF", 16) == "255", "big stod hex");
 
-        T(dec_to_str("0", 2) == "0", "big dtos 0");
-        T(dec_to_str("10", 2) == "1010", "big dtos bin");
-        T(dec_to_str("255", 16) == "FF", "big dtos hex");
+        T(dec_to_R("0", 2) == "0", "big dtos 0");
+        T(dec_to_R("10", 2) == "1010", "big dtos bin");
+        T(dec_to_R("255", 16) == "FF", "big dtos hex");
 
         // big round-trip
         for (int R : {2, 8, 10, 16, 36}) {
             string x = "12345678901234567890";
-            T(str_to_dec(dec_to_str(x, R), R) == x,
+            T(str_to_dec(dec_to_R(x, R), R) == x,
               ("big roundtrip R=" + to_string(R)).c_str());
         }
         // 2^64-1
         T(str_to_dec("1111111111111111111111111111111111111111111111111111111111111111", 2)
           == "18446744073709551615", "big bin 64 ones");
-        T(dec_to_str("18446744073709551615", 2)
+        T(dec_to_R("18446744073709551615", 2)
           == "1111111111111111111111111111111111111111111111111111111111111111", "big dec->bin");
     }
 
