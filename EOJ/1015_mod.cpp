@@ -6,11 +6,13 @@ using namespace boost::multiprecision;
 using ll = long long;
 using BF = number<cpp_dec_float<500>>;
 
+
 int main() {
-    string sa, sb; int N; cin >> sa >> sb >> N;
-    BF a(sa), b(sb);
-    BF c = a + b;
-    stringstream ss; ss << fixed << setprecision(N) << c; 
+    string A, B; int N;
+    cin >> A >> B >> N;
+    BF a(A), b(B);
+    BF c = a - b;
+    stringstream ss; ss << fixed << setprecision(N) << c;
     cout << ss.str();
     return 0;
 }
