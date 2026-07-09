@@ -44,7 +44,6 @@ if (pos != string::npos) {
 
 ```cpp
 // 默认 operator <
-
 // 降序：greater<>()，或反向比较
 sort(v.begin(), v.end(), greater<int>());
 ```
@@ -54,7 +53,6 @@ sort(v.begin(), v.end(), greater<int>());
 ```cpp
 // priority_queue 小顶堆（三个模板参数，第三个是 Compare）
 priority_queue<int, vector<int>, greater<int>> pq;  // 小顶堆
-// 默认是大顶堆：priority_queue<int>
 
 // set 自定义比较（在类型里写死）
 struct Cmp { bool operator()(int a, int b) const { return a > b; } };
