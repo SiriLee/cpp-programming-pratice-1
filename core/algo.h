@@ -27,26 +27,4 @@ inline bool is_prime(ll n) {
     return true;
 }
 
-inline vector<int> gen_primes(int k) {
-    vector<int> res;
-    if (k <= 0) return res;
-    res.push_back(2); if (--k == 0) return res;
-    res.push_back(3); if (--k == 0) return res;
-    for (int i = 5; k > 0; i += 6) {
-        bool ok = true;
-        for (int p : res) {
-            if (p * p > i) break;
-            if (i % p == 0) { ok = false; break; }
-        }
-        if (ok) { res.push_back(i); if (--k == 0) break; }
-        ok = true;
-        for (int p : res) {
-            if (p * p > i + 2) break;
-            if ((i + 2) % p == 0) { ok = false; break; }
-        }
-        if (ok) { res.push_back(i + 2); --k; }
-    }
-    return res;
-}
-
 #endif
