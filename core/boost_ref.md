@@ -17,6 +17,7 @@ using namespace boost::multiprecision;
 ```cpp
 cpp_int a("12345678901234567890");  // 巨数：字符串构造
 cpp_int b = 42;                     // 小数：直接赋值
+// 注意：前导零会被当八进制！"050" → 40，务必先去零
 string s = a.str();                 // 转字符串
 
 // + - * / %  < > <= == !=  >> <<  全部自然

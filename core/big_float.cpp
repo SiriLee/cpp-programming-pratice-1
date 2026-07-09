@@ -1,5 +1,6 @@
 #include "big_float.h"
-#include "big_int.h"
+#include <boost/multiprecision/cpp_int.hpp>
+using namespace boost::multiprecision;
 
 static string scale(const string& s, int flen) {
     size_t p = s.find('.');
@@ -16,18 +17,23 @@ static string float_op(const string& a, const string& b, int prec, bool add) {
     };
     int flen = max({frac_len(a), frac_len(b), prec + 1});
 
-    BigInt sa(scale(a, flen)), sb(scale(b, flen));
+    auto no0 = [](const string& x) {
+        size_t p = x.find_first_not_of('0');
+        return (p == string::npos) ? "0" : x.substr(p);
+    };
+    cpp_int sa(no0(scale(a, flen))), sb(no0(scale(b, flen)));
     bool neg = false;                                          // [NEG]
-    if (!add && cmp(sa, sb) < 0) { swap(sa, sb); neg = true; } // [NEG]
-    BigInt res = add ? sa + sb : sa - sb;
-    string s = res.s;
+    if (!add && sa < sb) { swap(sa, sb); neg = true; }         // [NEG]
+    cpp_int res;
+    if (add) res = sa + sb; else res = sa - sb;
+    string s = res.str();
     if ((int)s.size() < flen) s.insert(0, flen - s.size(), '0');
     // drop extra fractional digits beyond prec+1 (carries already applied)
     int drop = flen - (prec + 1);
     if (drop > 0) s.erase(s.size() - drop);
     // round half-up
     char last = s.back(); s.pop_back();
-    if (last >= '5') s = (BigInt(s) + BigInt("1")).s;
+    if (last >= '5') s = (cpp_int(no0(s)) + 1).str();
     if ((int)s.size() < prec) s.insert(0, prec - s.size(), '0');
     if (prec > 0) {
         s.insert(s.size() - prec, 1, '.');

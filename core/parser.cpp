@@ -1,5 +1,6 @@
 #include "parser.h"
-#include "big_int.h"
+#include <boost/multiprecision/cpp_int.hpp>
+using namespace boost::multiprecision;
 
 // ---- 小整数 ----
 
@@ -69,22 +70,22 @@ string double_to_str(double num, int R, int prec) {
 // ---- 大整数 ----
 
 string str_to_dec(const string& s, int from) {
-    BigInt res("0");
+    cpp_int res = 0;
     for (char c : s) {
         int d = isdigit(c) ? c - '0' : c - 'A' + 10;
-        res = res * BigInt(to_string(from)) + BigInt(to_string(d));
+        res = res * from + d;
     }
-    return res.s;
+    return res.str();
 }
 
 string dec_to_str(const string& dec, int to) {
-    if (dec == "0") return "0";
+    cpp_int n(dec);
+    if (n == 0) return "0";
     string res;
-    BigInt num(dec);
-    while (num.s != "0") {
-        auto [q, r] = div_by_int(num, to);
+    while (n != 0) {
+        int r = (int)(n % to);
         res += (r < 10 ? r + '0' : r - 10 + 'A');
-        num = q;
+        n /= to;
     }
     reverse(res.begin(), res.end());
     return res;
