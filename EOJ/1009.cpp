@@ -5,6 +5,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 字串排序 (按字母频率+字典序重排)
+// 关键: map统计频率, sort自定义比较
+
 struct StrNum {
     string str;
     ll num;

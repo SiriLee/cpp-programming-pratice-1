@@ -3,6 +3,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 字符分类统计 (字母/数字/空格/其他)
+// 关键: isalpha/isdigit/isspace, 注意大小写统计
+
 struct CharInfo {
     int lc;
     int uc;

@@ -5,6 +5,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 内存字节逐字节打印(十六进制)
+// 关键: 区分int(4字节)与double(8字节), 小端序
+// 参考: core/bit_op.h byte2hex
+
 inline string byte2hex(unsigned char c) {
     const char t[] = "0123456789abcdef";
     return {t[c >> 4], t[c & 0xF]};

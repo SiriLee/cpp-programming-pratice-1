@@ -3,6 +3,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 找出最小字符串 (贪心)
+// 关键: 遍历选择最小未使用字符
+
 string parse(const string& str) {
     string res;
     char prev = CHAR_MAX;

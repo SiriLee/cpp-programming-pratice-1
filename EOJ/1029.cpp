@@ -3,6 +3,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 括号字符串的分数
+// 关键: 栈+嵌套深度, 每层贡献由深度决定
+// 参考: core/templates.md 括号匹配
+
 const int LEFT = INT_MAX;
 
 int parse(const string& expr) {

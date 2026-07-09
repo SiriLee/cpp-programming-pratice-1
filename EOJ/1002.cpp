@@ -6,6 +6,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: R进制→最简代分数 (integer + proper fraction)
+// 关键: 整数部分与小数部分分别处理, gcd约分, 分母恒正
+// 易错: gcd 注意符号
+
 string table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 // 整数部分

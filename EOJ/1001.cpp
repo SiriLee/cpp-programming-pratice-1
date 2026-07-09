@@ -3,6 +3,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 标准进制转换 A→10→B
+// 关键: Horner法入(to decimal) + 短除法出(from decimal)
+// 参考: core/base_algo.md §1
+
 ll str_to_ll(const string& s, int R);
 string ll_to_str(ll num, int R);
 

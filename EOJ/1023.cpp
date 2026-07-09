@@ -3,6 +3,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 统计满足约束的字符串个数
+// 关键: DFS回溯枚举所有组合, 用set自动去重排序
+// 参考: core/templates.md DFS回溯
+
 class StringGenerator {
 public:
     StringGenerator(int n) : n_(n) {}

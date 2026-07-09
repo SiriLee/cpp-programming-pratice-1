@@ -3,6 +3,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 数据密度(bit占比)
+// 关键: gcd约分, gcd(0,x)=|x|
+
 int main() {
     int n; cin >> n;
     cin.ignore();

@@ -8,6 +8,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 平衡三进制 (整数+小数→分数)
+// 关键: 余数校正 r>1→r-=3, 数字集{-1,0,1}映射为{2,0,1}
+// 参考: core/base_algo.md §3
+
 int D(char c) {
     if (c == '0') return 0;
     if (c == '1') return 1;

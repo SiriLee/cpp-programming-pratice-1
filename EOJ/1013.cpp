@@ -3,6 +3,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 二进制倒置 (decimal→binary→reverse→decimal)
+// 关键: 大数短除转二进制, 翻转后去前导零
+// 备用: 1013_mod.cpp (bit-by-bit版)
+
 const int MAXN = 334;
 
 string decStrToBinary(const string& num) {

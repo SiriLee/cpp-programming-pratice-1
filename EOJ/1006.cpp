@@ -7,6 +7,10 @@ using namespace std;
 using ui = unsigned int;
 using ull = unsigned long long;
 
+// 考点: 素数进制A+B (混合进制加法)
+// 关键: 每位基数不同(第i位基数为prime[i]), 进位至多1
+// 参考: core/base_algo.md §4 混合进制
+
 const ui prime[25] = {
     2, 3, 5, 7, 11, 
     13, 17, 19, 23, 29, 

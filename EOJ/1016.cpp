@@ -3,6 +3,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 整数幂 A^B mod C
+// 关键: 快速幂模板 qpow
+// 参考: core/algo.h
+
 ll abc(ll A, ll B, int C) {
     ll cur = 1;
     for (ll i = 0; i < B; ++i) {

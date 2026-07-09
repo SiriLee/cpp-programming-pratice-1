@@ -5,6 +5,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 大整数A+B
+// 关键: 手写加法(vector<int>倒序存储+进位) 或 Boost cpp_int
+// 备用: 1012_mod.cpp (cpp_int版, 仅2行)
+
 string addBigInt(const string& A, const string& B) {
     vector<int> a(A.rbegin(), A.rend()), b(B.rbegin(), B.rend());
     int n = max(a.size(), b.size());

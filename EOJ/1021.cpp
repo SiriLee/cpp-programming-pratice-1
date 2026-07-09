@@ -3,6 +3,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 统计单词个数 (含特殊单词过滤)
+// 关键: stringstream分割, tolower统一大小写, 特判列表
+
 bool isSpecialWord(const string& word) {
     string lower = word;
     transform(lower.begin(), lower.end(), lower.begin(), ::tolower);

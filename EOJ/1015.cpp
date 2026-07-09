@@ -3,6 +3,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 浮点数减法 (同1014加法)
+// 关键: 结果为负时交换操作数后标记负号
+// 参考: core/big_float.h
+
 struct BigInt {
     string s;
 

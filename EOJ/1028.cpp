@@ -3,6 +3,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 莫尔斯电码解码
+// 关键: unordered_map查表, '/'个数(3=空格, 5=句号)
+
 static const unordered_map<string, char> codes = {
     {".-", 'A'}, {"-...", 'B'}, {"-.-.", 'C'}, {"-..", 'D'}, {".", 'E'}, {"..-.", 'F'},
     {"--.", 'G'}, {"....", 'H'}, {"..", 'I'}, {".---", 'J'}, {"-.-", 'K'},

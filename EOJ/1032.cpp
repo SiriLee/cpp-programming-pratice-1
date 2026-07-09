@@ -3,6 +3,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 台阶走法数 (带约束线性DP)
+// 关键: dp[i]=dp[i-1]+dp[i-2]+dp[i-3], 注意取模
+
 vector<ll> stepCount(int n) {
     n = max(n, 3);
     vector<ll> steps(n + 1, 0);

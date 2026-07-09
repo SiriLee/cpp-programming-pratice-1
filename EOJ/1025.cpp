@@ -3,6 +3,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 最长无重复子串
+// 关键: 滑动窗口 + unordered_map<char,int> 记录最后出现位置
+// 参考: core/templates.md 滑动窗口
+
 string longestUniqSubStr(const string& str) {
     map<int, pair<int, int>> len_map; // len - (s, e)
     unordered_map<char, int> map; // ch - index

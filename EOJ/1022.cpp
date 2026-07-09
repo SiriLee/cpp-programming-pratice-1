@@ -3,6 +3,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 神奇01字符串 (递推生成)
+// 关键: 按规则取反+拼接, 循环n次
+
 string opposite(const string& s) {
     string res;
     for (char c : s) {

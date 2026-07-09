@@ -5,6 +5,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 邮件地址排序
+// 关键: find('@')分割用户名/域名, sort自定义比较(域名优先)
+
 class email {
 private:
     string name;

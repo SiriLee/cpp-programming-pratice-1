@@ -3,6 +3,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 0-1背包 (恰好容量M)
+// 关键: dp一维优化, 内层j必须倒序(j=M; j>=w[i]; --j)
+// 参考: core/templates.md 01背包
+
 ll package01(ll m, const vector<ll>& w, const vector<ll>& v) {
     vector<ll> dp(m + 1);
     for (size_t i = 0; i < w.size(); ++i) {

@@ -5,6 +5,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 最近点对(一维)
+// 关键: 排序后相邻比较, double 用 abs(a-b)<1e-9 判等
+
 int main() {
     int n; cin >> n;
     vector<ll> a(n);

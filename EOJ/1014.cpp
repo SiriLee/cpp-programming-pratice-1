@@ -3,6 +3,11 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 浮点数加法 + 四舍五入到N位(≤500位)
+// 关键: 小数点对齐→scale为整数→BigInt运算→回插小数点→末位四舍五入
+// 备选: Boost cpp_dec_float (OJ支持时直接用)
+// 参考: core/big_float.h (手写版), core/boost_ref.md (Boost版)
+
 struct BigInt {
     string s;
 

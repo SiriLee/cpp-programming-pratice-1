@@ -6,6 +6,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 最小进制推断
+// 关键: 字符→数值映射, 基数=max(digit)+1, 至少为2
+
 ll getMinNum(const string& str) {
     vector<int> arr;
     unordered_map<char, int> map;

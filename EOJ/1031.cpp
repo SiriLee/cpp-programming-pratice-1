@@ -3,6 +3,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 天平称重 (子集和变种)
+// 关键: 每个砝码可选左(+w)/右(-w)/不选, dp第二维偏移sum处理负下标
+// 参考: 1031 包含两种实现(二维dp+偏移 / 一维dp子集和)
+
 vector<bool> canWeight(const vector<int>& w, int sum) {
     int n = w.size();
     vector<vector<bool>> dp(n, vector<bool>(2 * sum + 1, false));

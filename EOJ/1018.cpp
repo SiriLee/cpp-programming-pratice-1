@@ -3,6 +3,10 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 分数加法
+// 关键: 通分(p1*q2+p2*q1, q1*q2)+约分, 分母恒正
+// 参考: core/templates.md 分数模板
+
 struct Fraction {
     ll p, q;
 

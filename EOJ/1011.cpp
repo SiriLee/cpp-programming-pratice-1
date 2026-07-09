@@ -6,6 +6,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: Maya历日期排序
+// 关键: 自定义格式解析(月份名→数字), 多关键字sort
+
 static const unordered_map<string, int> month_map = {
     {"pop", 0}, {"no", 1}, {"zip", 2}, {"zotz", 3}, {"tzec", 4},
     {"xul", 5}, {"yoxkin", 6}, {"mol", 7}, {"chen", 8}, {"yax", 9},

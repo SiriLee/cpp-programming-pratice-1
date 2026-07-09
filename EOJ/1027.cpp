@@ -3,6 +3,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 单词表 (分割+去重+排序)
+// 关键: stringstream分割, set自动排序去重, 自定义分隔符
+
 bool isSplit(char c) {
     return c == ' ' || c == ',' || c == '.' || c == '!' || c == '?';
 }

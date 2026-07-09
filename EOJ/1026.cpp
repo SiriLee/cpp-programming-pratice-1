@@ -3,6 +3,9 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 最小01串权值
+// 关键: 遍历替换?为0/1, 计算相邻不同字符数×权重
+
 void parse(string& str) {
     size_t n = str.size();
     // n >= 2

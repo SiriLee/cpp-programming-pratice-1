@@ -3,6 +3,11 @@
 using namespace std;
 using ll = long long;
 
+// 考点: 负二进制 (R=-2)
+// 关键: floor除法(余数∈[0,1]), n_new = -q (符号翻转)
+// 易错: C++ % 结果符号跟随被除数
+// 参考: core/base_algo.md §2
+
 struct BigInt {
     string s;
 
