@@ -102,11 +102,3 @@ stringstream ss;
 ss << 42 << ' ' << 3.14;
 int a; double b; ss >> a >> b;
 ```
-
-## pair / tuple
-
-```cpp
-// 访问
-p.first;  p.second;                   // pair
-get<0>(t);  get<1>(t);               // tuple（下标必须是编译期常量）
-```
