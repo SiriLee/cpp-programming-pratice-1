@@ -20,11 +20,7 @@ int main() {
         cin >> A >> B >> C;
         ll mod = pow(10LL, C);
         ll res = pow_mod(A, B, mod);
-        string str = to_string(res);
-        while (str.size() < C) {
-            str.insert(str.begin(), '0');
-        }
-        cout << str << endl;
+        cout << setw(C) << setfill('0') << res << endl;
     }
     return 0;
 }
